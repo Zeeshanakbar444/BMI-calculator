@@ -1,23 +1,54 @@
-let h = prompt("Enter your Height In (cm)")
-let w = prompt("Enter Your Weight In (Kg)")
+
+window.calculateBMI = function calculateBMI() {
+    let heightInputFeet = document.getElementById("heightInputFeet").value;
+    let heightInputInch = document.querySelector("#heightInputInch").value;
+
+    let weightInputKg = document.querySelector("#weightInputKg").value;
+
+    heightInputFeet = parseInt(heightInputFeet);
+    heightInputInch = parseInt(heightInputInch);
+
+    heightInputInch += heightInputFeet * 12;
+
+    let heightInMeter = (heightInputInch * 2.54) / 100;
+
+    let heightInMeterSq = heightInMeter * heightInMeter;
+
+    let bodyMassIndex = weightInputKg / heightInMeterSq;
+
+    let idealWeight = 22 * heightInMeterSq;
+
+    let weightToLose = (weightInputKg - idealWeight).toFixed(2);
+    let weightToGain = (idealWeight - weightInputKg).toFixed(2);
+
+    let suggestion = "you are ";
+
+    if (bodyMassIndex > 30) {
+        suggestion += `Obese. you need to lose ${weightToLose}kg`;
+
+    } else if (bodyMassIndex > 25) {
+        suggestion += `Overweight. you need to lose ${weightToLose}kg`;
+
+    } else if (bodyMassIndex > 18.5) {
+
+        if (bodyMassIndex > 22) {
+            suggestion += `Normal but optionally you may lose ${weightToLose} weight to become ideally fit`
+        } else if (parseInt(bodyMassIndex) === 22) {
+            suggestion += `perfectly Fit`
+        } else {
+            suggestion += `Normal but optionally you may gain ${weightToGain} weight to become ideally fit`
+        }
+
+    } else {
+        suggestion += `Underweight. you are supposed to gain ${weightToGain}kg to become normal`
+    }
 
 
-let bmi = w / (h/100 * h/100  )
+    console.log("index: ", bodyMassIndex);
+    console.log("title: ", title);
+    console.log("idealWeight: ", idealWeight);
 
-console.log("your bmi is ;" , +bmi )
 
-let userInput =  'your BMI is ;' + bmi ;  
-
- if (bmi <= 18.5){
-     console.log( userInput +  'You are under weight')
-    alert( userInput +  'You are under weight')
- } else if (bmi <=25){
- alert( userInput +  'You are Normal')
- console.log( userInput +  'You are Normal')
-} else if(bmi <=30){
-    console.log( userInput +  'You are over weight ')
-    alert( userInput +  'You are over weight ')
-} else { // >30
-    console.log( userInput +  'You are obese')
-   alert( userInput +  'You are obese')
+    document.querySelector("#title").innerHTML = ` ${(idealWeight).toFixed(2)}kg`
+    document.querySelector("#suggestion").innerHTML = suggestion;
 }
